@@ -13,6 +13,7 @@
  	* Proprietary and confidential
 
 =============================================================================*/
+// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
@@ -23,30 +24,30 @@
 =============================================================================*/
 
 uniform float SEARCH_RADIUS <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Debanding Search Radius";
+    ui_label = "去色带搜索半径";
 > = 0.5;
 
 uniform int BIT_DEPTH <
 	ui_type = "slider";
 	ui_min = 4; ui_max = 10;
-    ui_label = "Bit depth of data to be debanded";
+    ui_label = "被去色带的数据的比特深度";
 > = 8;
 
 uniform bool AUTOMATE_BIT_DEPTH <
-    ui_label = "Automatic bit depth detection";
+    ui_label = "自动比特深度检测";
 > = true;
 
 uniform int DEBAND_MODE <
 	ui_type = "radio";
-    ui_label = "Dither mode";
-	ui_items = "None\0Dither\0Deband\0";
+    ui_label = "抖动模式";
+	ui_items = "无\0抖动\0去色带\0";
 > = 2;
 
 uniform bool SKY_ONLY <
-    ui_label = "Apply to sky only";
+    ui_label = "仅应用于天空";
 > = false;
 
 /*=============================================================================
@@ -121,10 +122,9 @@ void PSMain(in VSOUT i, out float3 o : SV_Target0)
 =============================================================================*/
 
 technique Debanding
-< ui_tooltip = "                     >> qUINT::Debanding <<\n\n"
-			   "This is a simple debanding filter, which aims to hide color\n"
-               "quantization artifacts in games. \n"
-               "\nqUINT Debanding is written by Marty McFly / Pascal Gilcher"; >
+< ui_tooltip = "                     >> qUINT::去色带(Debanding) <<\n\n"
+			   "这是一个简单的去色带滤波器，旨在隐藏游戏中的颜色量化伪影。\n"
+               "\nqUINT Debanding is written by Marty McFly / Pascal Gilcher"; ui_label="qUINT-光线追踪去色带(Deband)";>
 {
     pass
 	{

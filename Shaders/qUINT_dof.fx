@@ -14,6 +14,7 @@
     Copyright (c) Pascal Gilcher / Marty McFly. All rights reserved.
 
 =============================================================================*/
+// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
@@ -36,190 +37,190 @@
 
 uniform bool bADOF_AutofocusEnable <
     ui_type = "bool";
-    ui_label = "Enable Autofocus";
-    ui_tooltip = "Enables automated focus calculation.";
-    ui_category = "Focusing";
+    ui_label = "开启自动对焦";
+    ui_tooltip = "开启自动对焦计算";
+    ui_category = "对焦";
 > = true;
 
 uniform float2 fADOF_AutofocusCenter <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0; ui_max = 1.0;
-    ui_label = "Autofocus Center";
-    ui_tooltip = "X and Y coordinates of autofocus center. Axes start from upper left screen corner.";
-    ui_category = "Focusing";
+    ui_label = "自动对焦中心";
+    ui_tooltip = "自动对焦中心的X与Y坐标，坐标原点为左上角。";
+    ui_category = "对焦";
 > = float2(0.5, 0.5);
 
 uniform float fADOF_AutofocusRadius <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Autofocus sample radius";
-    ui_tooltip = "Radius of area contributing to focus calculation.";
-    ui_category = "Focusing";
+    ui_label = "自动对焦采样半径";
+    ui_tooltip = "自动对焦采样区域的半径";
+    ui_category = "对焦";
 > = 0.6;
 
 uniform float fADOF_AutofocusSpeed <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.05;
     ui_max = 1.0;
-    ui_label = "Autofocus Adjustment Speed";
-    ui_tooltip = "Adjustment speed of autofocus on focus change";
-    ui_category = "Focusing";
+    ui_label = "自动对焦调整速度";
+    ui_tooltip = "焦点改变时的自动对焦调整速度";
+    ui_category = "对焦";
 > = 0.1;
 
 uniform float fADOF_ManualfocusDepth <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Manual focus depth";
-    ui_tooltip = "Manually adjusted static focus depth, disable autofocus to use it.";
-    ui_category = "Focusing";
+    ui_label = "手动对焦深度";
+    ui_tooltip = "手动调整静态对焦深度，关闭自动对焦来启用它";
+    ui_category = "对焦";
 > = 0.001;
 
 uniform float fADOF_NearBlurCurve <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.5;
     ui_max = 6.0;
-    ui_label = "Near blur curve";
-    ui_category = "Focusing";
+    ui_label = "近模糊曲线";
+    ui_category = "对焦";
 > = 6.0;
 
 uniform float fADOF_FarBlurCurve <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.5;
     ui_max = 6.0;
-    ui_label = "Far blur curve";
-    ui_category = "Focusing";
+    ui_label = "远模糊曲线";
+    ui_category = "对焦";
 > = 1.5;
 
 uniform float fADOF_HyperFocus <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Hyperfocal depth distance";
-    ui_category = "Focusing";
+    ui_label = "超焦距深度距离";
+    ui_category = "对焦";
 > = 0.10;
 
 uniform float fADOF_RenderResolutionMult <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.5;
     ui_max = 1.0;
-    ui_label = "Size Scale";
-    ui_tooltip = "Resolution Scale of bokeh blur. 0.5 means 1/2 screen width and height.";
-    ui_category = "Blur & Quality";
+    ui_label = "尺寸缩放";
+    ui_tooltip = "散景模糊的分辨率缩放，0.5表示画面宽高的一半";
+    ui_category = "模糊与质量";
 > = 0.5;
 
 uniform float fADOF_ShapeRadius <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 100.0;
-    ui_label = "Bokeh Maximal Blur Size";
-    ui_tooltip = "Blur size of areas entirely out of focus.";
-    ui_category = "Blur & Quality";
+    ui_label = "散景最大模糊大小";
+    ui_tooltip = "完全在焦点外的区域的模糊大小";
+    ui_category = "模糊与质量";
 > = 20.5;
 
 uniform float fADOF_SmootheningAmount <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
-    ui_max = 20.0;
-    ui_label = "Gaussian blur width";
-    ui_tooltip = "Width of gaussian blur after bokeh filter.";
-    ui_category = "Blur & Quality";
+    ui_max = 200.0;
+    ui_label = "高斯模糊宽度";
+    ui_tooltip = "散景过滤后的高斯模糊宽度";
+    ui_category = "模糊与质量";
 > = 4.0;
 
 uniform float fADOF_BokehIntensity <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Bokeh Intensity";
-    ui_tooltip = "Intensity of bokeh discs.";
-    ui_category = "Bokeh";
+    ui_label = "散景强度";
+    ui_tooltip = "散景圆片的强度";
+    ui_category = "散景";
 > = 0.3;
 
 uniform int iADOF_BokehMode <
     ui_type = "slider";
     ui_min = 0;
     ui_max = 3;
-    ui_label = "Bokeh highlight type";
-    ui_tooltip = "Different methods to emphasize bokeh sprites";
-    ui_category = "Bokeh";
+    ui_label = "散景高光类型";
+    ui_tooltip = "不同方法来强调散景sprites";
+    ui_category = "散景";
 > = 2;
 
 uniform int iADOF_ShapeVertices <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 3;
     ui_max = 9;
-    ui_label = "Bokeh shape vertices";
-    ui_tooltip = "Vertices of bokeh kernel. 5 = pentagon, 6 = hexagon etc.";
-    ui_category = "Bokeh";
+    ui_label = "散景形状顶点";
+    ui_tooltip = "散景核的顶点。 5 = 五边形, 6 = 六边形 以此类推";
+    ui_category = "散景";
 > = 6;
 
 uniform int iADOF_ShapeQuality <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 2;
     ui_max = 25;
-    ui_label = "Bokeh shape quality";
-    ui_category = "Bokeh";
+    ui_label = "散景形状质量";
+    ui_category = "散景";
 > = 5;
 
 uniform float fADOF_ShapeCurvatureAmount <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = -1.0;
     ui_max = 1.0;
-    ui_label = "Bokeh shape roundness";
-    ui_tooltip = "Roundness of bokeh kernel. 1.0 = circle, 0.0 = polygon.";
-    ui_category = "Bokeh";
+    ui_label = "散景形状圆化";
+    ui_tooltip = "散景核的圆化。 1.0 = 圆, 0.0 = 多边形。";
+    ui_category = "散景";
 > = 1.0;
 
 uniform float fADOF_ShapeRotation <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 360.0;
-    ui_label = "Bokeh shape rotation";
-    ui_category = "Bokeh";
+    ui_label = "散景形状旋转";
+    ui_category = "散景";
 > = 0.0;
 
 uniform float fADOF_ShapeAnamorphRatio <
-    ui_type = "drag";
+    ui_type = "slider";
     ui_min = 0.0;
     ui_max = 1.0;
-    ui_label = "Bokeh shape aspect ratio";
-    ui_category = "Bokeh";
+    ui_label = "散景形状纵横比";
+    ui_category = "散景";
 > = 1.0;
 
 #if(ADOF_OPTICAL_VIGNETTE_ENABLE != 0)
     uniform float fADOF_ShapeVignetteCurve <
-        ui_type = "drag";
+        ui_type = "slider";
         ui_min = 0.5;
         ui_max = 2.5;
-        ui_label = "Bokeh shape vignette curve";
-        ui_category = "Bokeh";
+        ui_label = "散景形状晕影曲线";
+        ui_category = "散景";
     > = 0.75;
 
     uniform float fADOF_ShapeVignetteAmount <
-        ui_type = "drag";
+        ui_type = "slider";
         ui_min = 0.0;
         ui_max = 2.0;
-        ui_label = "Bokeh shape vignette amount";
-        ui_category = "Bokeh";
+        ui_label = "散景形状晕影数量";
+        ui_category = "散景";
     > = 1.0;
 #endif
 
 #if(ADOF_CHROMATIC_ABERRATION_ENABLE != 0)
     uniform float fADOF_ShapeChromaAmount <
-        ui_type = "drag";
+        ui_type = "slider";
         ui_min = -1.0;
         ui_max = 1.0;
-        ui_label = "Shape chromatic aberration amount";
-        ui_category = "Chromatic Aberration";
+        ui_label = "形状色差数量";
+        ui_category = "色差";
     > = -0.1;
 
     uniform int iADOF_ShapeChromaMode <
-        ui_type = "drag";
+        ui_type = "slider";
         ui_min = 0;
         ui_max = 2;
-        ui_label = "Shape chromatic aberration type";
-        ui_category = "Chromatic Aberration";
+        ui_label = "形状色差类型";
+        ui_category = "色差";
     > = 2;
 #endif
 
@@ -697,12 +698,11 @@ void PS_DoF_ChromaticAberration(in ADOF_VSOUT IN, out float4 color : SV_Target0)
 =============================================================================*/
 
 technique ADOF
-< ui_tooltip = "                         >> qUINT::ADOF <<\n\n"
-               "ADOF is a bokeh depth of field shader.\n"
-               "It blurs the scene in front of and behind the focus plane\n"
-               "to simulate the behaviour of real lenses. A multitude of features\n"
-               "allows to simulate various types of bokeh blur that cameras produce.\n"
-               "\nADOF is written by Marty McFly / Pascal Gilcher"; >
+< ui_tooltip = "               >> qUINT::高级景深(ADOF) <<\n\n"
+               "ADOF是一个虚化的景深着色器。\n"
+               "它模糊了焦点平面前后的场景，以模拟真实镜头的行为。\n"
+               "大量的功能允许模拟相机产生的各种类型的虚化模糊。\n"
+               "\nADOF is written by Marty McFly / Pascal Gilcher"; ui_label="qUINT-光线追踪高级景深(ADOF)";>
 {
    /* pass
     {

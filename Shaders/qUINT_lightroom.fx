@@ -14,6 +14,7 @@
     Copyright (c) Pascal Gilcher / Marty McFly. All rights reserved.
 
 =============================================================================*/
+// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
@@ -32,78 +33,80 @@
 =============================================================================*/
 
 uniform bool LIGHTROOM_ENABLE_LUT <
-	ui_label = "Enable LUT Overlay";
-	ui_tooltip = "This displays a neutral LUT onscreen, all color adjustments of this shader and consecutive ones are applied to it.\nTaking a screenshot and using the cropped LUT with the TuningPalette will reproduce all changes of this shader.\nTo make sure that all color changes of your current preset are saved, put Lightroom as early in the\ntechnique chain as possible. Putting grain, sharpening, bloom etc after Lightroom.fx will break the LUT.";
+	ui_label = "开启LUT覆盖";
+	ui_tooltip = "这将在屏幕上显示一个中性的LUT，这个着色器的所有颜色调整都会应用到它。拍摄一张截图并使用经过裁剪的LUT和TuningPalette将重现该着色器的所有变化。为了确保你当前预设的所有颜色变化都被保存下来，尽可能早地将\"暗室\"放在着色器列表中。在暗室效果之后放置颗粒、锐化、泛光等会破坏LUT。";
     ui_category = "LUT";
 > = false;
 
 uniform int LIGHTROOM_LUT_TILE_SIZE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 8; ui_max = 64;
-	ui_label = "LUT tile size";
-	ui_tooltip = "This controls the XY size of tiles of the LUT (which is accuracy in red/green channel).";
+	ui_label = "LUT贴片大小";
+	ui_tooltip = "控制LUT贴片的XY大小 (即红/绿通道的精度).";
     ui_category = "LUT";
 > = 16;
 
 uniform int LIGHTROOM_LUT_TILE_COUNT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 8; ui_max = 64;
-	ui_label = "LUT tile count";
-	ui_tooltip = "This controls the amount of tiles of the LUT (which is accuracy in blue channel).\nBe aware that Tile Size XY * Tile Amount is the width of the LUT and if this value\nis larger than your resolution width, the LUT won't fit on your screen.";
+	ui_label = "LUT贴片数量";
+	ui_tooltip = "这控制了LUT的贴片数量（蓝色通道的精度）。\n"
+	"请注意，贴片大小 XY * 贴片数量是LUT的宽度，如果这个值大于你的分辨率宽度，LUT将无法在你的屏幕上适应。";
     ui_category = "LUT";
 > = 16;
 
 uniform int LIGHTROOM_LUT_SCROLL <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0; ui_max = 5;
-	ui_label = "LUT scroll";
-	ui_tooltip = "If your LUT size exceeds your screen width, set this to 0, take screenshot, set it to 1, take screenshot\netc until you  reach the end of your LUT and assemble the screenshots like a panorama.\nIf your LUT fits the screen size however, leave it at 0.";
+	ui_label = "LUT滚动";
+	ui_tooltip = "如果你的LUT尺寸超过了你的屏幕宽度，把它设置为0，拍摄屏幕，把它设置为1，拍摄屏幕，以此类推。\n"
+	"直到你拍到你的LUT的最后一块，然后把屏幕截图像全景图一样组合起来。\n如果你的LUT符合屏幕的尺寸，就把它设置为0。";
     ui_category = "LUT";
 > = 0;
 
 uniform bool LIGHTROOM_ENABLE_CURVE_DISPLAY <
-	ui_label = "Enable Luma Curve Display";
-	ui_tooltip = "This enables a small overlay with a luma curve\nso you can monitor changes made by exposure, levels etc.";
+	ui_label = "开启亮度曲线显示";
+	ui_tooltip = "开启小的亮度曲线覆盖图层。\n这样你就能看到你对的曝光、对比度等的改动。";
     ui_category = "Debug";
 > = false;
 
 uniform bool LIGHTROOM_ENABLE_CLIPPING_DISPLAY <
-	ui_label = "Enable Black/White Clipping Mask";
-	ui_tooltip = "This shows where colors reach #000000 black or #ffffff white, helpful for adjusting levels properly.\nNOTE: Any shader that operates after Lightroom in ReShade technique list can change final color levels afterwards\nso either put Lightroom last in line or take this with a grain of salt.";
+	ui_label = "显示黑/白裁切遮罩";
+	ui_tooltip = "这显示了颜色达到#000000(全黑)或#ffffff(全白)的地方，有助于正确调整色阶。\n注意: 在ReShade着色器列表中，任何在暗室之后操作的着色器都会在之后改变最终的色阶，\n所以要么把暗室放在最后，要么就把这个仅当作是一种参考。";
     ui_category = "Debug";
 > = false;
 
 #if(ENABLE_HISTOGRAM == 1)
 
 	uniform bool LIGHTROOM_ENABLE_HISTOGRAM <
-		ui_label = "Enable Histogram";
-		ui_tooltip = "This enables a small overlay with a histogram for monitoring purposes.\nFor higher performance, open shader and set HISTOGRAM_BINS_NUM to a lower value.";
-        ui_category = "Histogram";
+		ui_label = "开启直方图";
+		ui_tooltip = "开启显示一个小的直方图覆盖图层，以达到监控的目的。\n为了获得更高的性能，打开着色器并将HISTOGRAM_BINS_NUM设置为一个较低的值。";
+        ui_category = "直方图";
 	> = false;
 
 	uniform int LIGHTROOM_HISTOGRAM_SAMPLES <
-		ui_type = "drag";
+		ui_type = "slider";
 		ui_min = 32; ui_max = 96;
-		ui_label = "Histogram Samples";
-		ui_tooltip = "The amount of samples, 20 means 20x20 samples distributed on the screen.\nHigher means a more accurate histogram depicition and less temporal noise.";
-        ui_category = "Histogram";
+		ui_label = "直方图采样";
+		ui_tooltip = "采样数量，20意味着20x20个样本分布在屏幕上。\n更高意味着更准确的直方图描述和更少的临时性噪音。";
+        ui_category = "直方图";
 	> = 20;
 
 	uniform float LIGHTROOM_HISTOGRAM_HEIGHT <
-		ui_type = "drag";
+		ui_type = "slider";
 		ui_step = 1;
 		ui_min = 5.0; ui_max = 50.0;
-		ui_label = "Histogram Curve Height";
-		ui_tooltip = "Raises the Histogram curve if the values are highly distributed and not visible very well.";
-        ui_category = "Histogram";
+		ui_label = "直方图曲线高度";
+		ui_tooltip = "如果数值高度分布，而且不是很明显，则提高直方图曲线。";
+        ui_category = "直方图";
 	> = 15;
 
 	uniform float LIGHTROOM_HISTOGRAM_SMOOTHNESS <
-		ui_type = "drag";
+		ui_type = "slider";
 		ui_min = 1.0; ui_max = 10.00;
-		ui_label = "Histogram Curve Smoothness";
-		ui_tooltip = "Smoothens the Histogram curve for a more temporally coherent result.\nNote that raising this falsifies the Histogram data.";
-        ui_category = "Histogram";
+		ui_label = "直方图曲线平滑";
+		ui_tooltip = "对直方图曲线进行平滑处理，使其在时间上更加连贯。\n请注意，提高这一点会使直方图的数据的真实性减小。";
+        ui_category = "直方图";
 	> = 5.00;
 
 #endif
@@ -111,361 +114,361 @@ uniform bool LIGHTROOM_ENABLE_CLIPPING_DISPLAY <
 //=============================================================================
 
 uniform float LIGHTROOM_RED_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Red       Hue Control";
-	ui_tooltip = "Magenta <= ... Red ... => Orange";
-    ui_category = "Palette";
+	ui_label = "红色    Hue控制";
+	ui_tooltip = "洋红 <= ... 红色 ... => 橙色";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_ORANGE_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Orange    Hue Control";
-	ui_tooltip = "Red <= ... Orange ... => Yellow";
-    ui_category = "Palette";
+	ui_label = "橙色    Hue控制";
+	ui_tooltip = "红色 <= ... 橙色 ... => 黄色";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_YELLOW_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Yellow    Hue Control";
-	ui_tooltip = "Orange <= ... Yellow ... => Green";
-    ui_category = "Palette";
+	ui_label = "黄色    Hue控制";
+	ui_tooltip = "橙色 <= ... 黄色 ... => 绿色";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_GREEN_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Green     Hue Control";
-	ui_tooltip = "Yellow <= ... Green ... => Aqua";
-    ui_category = "Palette";
+	ui_label = "绿色    Hue控制";
+	ui_tooltip = "黄色 <= ... 绿色 ... => 湖绿";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_AQUA_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Aqua      Hue Control";
-	ui_tooltip = "Green <= ... Aqua ... => Blue";
-    ui_category = "Palette";
+	ui_label = "湖绿    Hue控制";
+	ui_tooltip = "绿色 <= ... 湖绿 ... => 蓝色";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_BLUE_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Blue      Hue Control";
-	ui_tooltip = "Aqua <= ... Blue ... => Magenta";
-    ui_category = "Palette";
+	ui_label = "蓝色    Hue控制";
+	ui_tooltip = "湖绿 <= ... 蓝色 ... => 洋红";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_MAGENTA_HUESHIFT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Magenta   Hue Control";
-	ui_tooltip = "Blue <= ... Magenta ... => Red";
-    ui_category = "Palette";
+	ui_label = "洋红    Hue控制";
+	ui_tooltip = "蓝色 <= ... 洋红 ... => 红色";
+    ui_category = "调色";
 > = 0.00;
 
 //=============================================================================
 
 uniform float LIGHTROOM_RED_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Red       Exposure";
-	ui_tooltip = "Exposure control of Red colors";
-    ui_category = "Palette";
+	ui_label = "红色    曝光";
+	ui_tooltip = "红色曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_ORANGE_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Orange    Exposure";
-	ui_tooltip = "Exposure control of Orange colors";
-    ui_category = "Palette";
+	ui_label = "橙色    曝光";
+	ui_tooltip = "橙色曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_YELLOW_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Yellow    Exposure";
-	ui_tooltip = "Exposure control of Yellow colors";
-    ui_category = "Palette";
+	ui_label = "黄色    曝光";
+	ui_tooltip = "黄色曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_GREEN_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Green     Exposure";
-	ui_tooltip = "Exposure control of Green colors";
-    ui_category = "Palette";
+	ui_label = "绿色    曝光";
+	ui_tooltip = "绿色曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_AQUA_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Aqua      Exposure";
-	ui_tooltip = "Exposure control of Aqua colors";
-    ui_category = "Palette";
+	ui_label = "湖绿    曝光";
+	ui_tooltip = "湖绿曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_BLUE_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Blue      Exposure";
-	ui_tooltip = "Exposure control of Blue colors";
-    ui_category = "Palette";
+	ui_label = "蓝色    曝光";
+	ui_tooltip = "蓝色曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_MAGENTA_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Magenta   Exposure";
-	ui_tooltip = "Exposure control of Magenta colors";
-    ui_category = "Palette";
+	ui_label = "洋红    曝光";
+	ui_tooltip = "洋红曝光控制";
+    ui_category = "调色";
 > = 0.00;
 
 //=============================================================================
 
 uniform float LIGHTROOM_RED_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Red       Saturation";
-	ui_tooltip = "Saturation control of Red colors";
-    ui_category = "Palette";
+	ui_label = "红色    饱和度";
+	ui_tooltip = "红色饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_ORANGE_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Orange    Saturation";
-	ui_tooltip = "Saturation control of Orange colors";
-    ui_category = "Palette";
+	ui_label = "橙色    饱和度";
+	ui_tooltip = "橙色饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_YELLOW_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Yellow    Saturation";
-	ui_tooltip = "Saturation control of Yellow colors";
-    ui_category = "Palette";
+	ui_label = "黄色    饱和度";
+	ui_tooltip = "黄色饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_GREEN_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Green     Saturation";
-	ui_tooltip = "Saturation control of Green colors";
-    ui_category = "Palette";
+	ui_label = "绿色    饱和度";
+	ui_tooltip = "绿色饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_AQUA_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Aqua      Saturation";
-	ui_tooltip = "Saturation control of Aqua colors";
-    ui_category = "Palette";
+	ui_label = "湖绿    饱和度";
+	ui_tooltip = "湖绿饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_BLUE_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Blue      Saturation";
-	ui_tooltip = "Saturation control of Blue colors";
-    ui_category = "Palette";
+	ui_label = "蓝色    饱和度";
+	ui_tooltip = "蓝色饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 uniform float LIGHTROOM_MAGENTA_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Magenta   Saturation";
-	ui_tooltip = "Saturation control of Magenta colors";
-    ui_category = "Palette";
+	ui_label = "洋红    饱和度";
+	ui_tooltip = "洋红饱和度控制";
+    ui_category = "调色";
 > = 0.00;
 
 //=============================================================================
 
 uniform float LIGHTROOM_GLOBAL_BLACK_LEVEL <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0; ui_max = 512;
 	ui_step = 1;
-	ui_label = "Global Black Level";
-	ui_tooltip = "Scales input HSL value. Everything darker than this is mapped to black.";
-    ui_category = "Curves";
+	ui_label = "全局黑阶";
+	ui_tooltip = "缩放输入Hue值，比此黑的值将被映射为黑。";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_WHITE_LEVEL <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0; ui_max = 512;
 	ui_step = 1;
-	ui_label = "Global White Level";
-	ui_tooltip = "Scales input HSL value. ";
-    ui_category = "Curves";
+	ui_label = "全局白阶";
+	ui_tooltip = "缩放输入Hue值。";
+    ui_category = "曲线";
 > = 255.00;
 
 uniform float LIGHTROOM_GLOBAL_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Exposure";
-	ui_tooltip = "Global Exposure Control";
-    ui_category = "Curves";
+	ui_label = "全局曝光";
+	ui_tooltip = "全局曝光控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_GAMMA <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Gamma";
-	ui_tooltip = "Global Gamma Control";
-    ui_category = "Curves";
+	ui_label = "全局Gamma";
+	ui_tooltip = "全局Gamma控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_BLACKS_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Blacks Curve";
-	ui_tooltip = "Global Blacks Curve Control";
-    ui_category = "Curves";
+	ui_label = "全局黑色曲线";
+	ui_tooltip = "全局黑色曲线控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_SHADOWS_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Shadows Curve";
-	ui_tooltip = "Global Shadows Curve Control";
-    ui_category = "Curves";
+	ui_label = "全局阴影曲线";
+	ui_tooltip = "全局阴影曲线控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_MIDTONES_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Midtones Curve";
-	ui_tooltip = "Global Midtones Curve Control";
-    ui_category = "Curves";
+	ui_label = "全局中间调曲线";
+	ui_tooltip = "全局中间调曲线控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_HIGHLIGHTS_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Highlights Curve";
-	ui_tooltip = "Global Highlights Curve Control";
-    ui_category = "Curves";
+	ui_label = "全局高光曲线";
+	ui_tooltip = "全局高光曲线控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_WHITES_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Whites Curve";
-	ui_tooltip = "Global Whites Curve Control";
-    ui_category = "Curves";
+	ui_label = "全局白色曲线";
+	ui_tooltip = "全局白色曲线控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_CONTRAST <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Contrast";
-	ui_tooltip = "Global Contrast Control";
-    ui_category = "Curves";
+	ui_label = "全局对比度";
+	ui_tooltip = "全局对比度控制";
+    ui_category = "曲线";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_SATURATION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Saturation";
-	ui_tooltip = "Global Saturation Control";
-    ui_category = "Color & Saturation";
+	ui_label = "全局饱和度";
+	ui_tooltip = "全局饱和度控制";
+    ui_category = "颜色与饱和度";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_VIBRANCE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global Vibrance";
-	ui_tooltip = "Global Vibrance Control";
-    ui_category = "Color & Saturation";
+	ui_label = "全局自然饱和度";
+	ui_tooltip = "全局自然饱和度控制";
+    ui_category = "颜色与饱和度";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_TEMPERATURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global White Balance: Temperature";
-	ui_tooltip = "Global Temperature Control";
-    ui_category = "Color & Saturation";
+	ui_label = "全局白平衡: 色温";
+	ui_tooltip = "全局色温控制";
+    ui_category = "颜色与饱和度";
 > = 0.00;
 
 uniform float LIGHTROOM_GLOBAL_TINT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -1.00; ui_max = 1.00;
-	ui_label = "Global White Balance: Tint";
-	ui_tooltip = "Global Tint Control";
-    ui_category = "Color & Saturation";
+	ui_label = "全局白平衡: 色调";
+	ui_tooltip = "全局色调控制";
+    ui_category = "颜色与饱和度";
 > = 0.00;
 
 //=============================================================================
 
 uniform bool LIGHTROOM_ENABLE_VIGNETTE <
-	ui_label = "Enable Vignette Effect";
-	ui_tooltip = "This enables a vignette effect (corner darkening).";
-    ui_category = "Vignette";
+	ui_label = "开启暗角效果";
+	ui_tooltip = "开启暗角效果";
+    ui_category = "暗角";
 > = false;
 
 uniform bool LIGHTROOM_VIGNETTE_SHOW_RADII <
-	ui_label = "Show Vignette Inner and Outer radius";
-	ui_tooltip = "This makes the inner and outer radius setting visible.\nVignette intensity builds up from green (no vignetting) to red (full vignetting).";
-    ui_category = "Vignette";
+	ui_label = "显示暗角内部与外部半径";
+	ui_tooltip = "这使得内部和外部的半径设置可见。\n暗角的强度从绿色（无暗角）到红色（完全暗角）。";
+    ui_category = "暗角";
 > = false;
 
 uniform float LIGHTROOM_VIGNETTE_RADIUS_INNER <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 2.00;
-	ui_label = "Inner Vignette Radius";
-	ui_tooltip = "Anything closer to the screen center than this is not affected by vignette.";
-    ui_category = "Vignette";
+	ui_label = "内部暗角半径";
+	ui_tooltip = "任何到屏幕中心距离比此值小的像素将不被暗角影响。";
+    ui_category = "暗角";
 > = 0.00;
 
 uniform float LIGHTROOM_VIGNETTE_RADIUS_OUTER <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 3.00;
-	ui_label = "Outer Vignette Radius";
-	ui_tooltip = "Anything farther from the screen center than this gets fully vignette'd.";
-    ui_category = "Vignette";
+	ui_label = "外部暗角半径";
+	ui_tooltip = "任何到屏幕中心距离比此值大的像素将完全被暗角作用。";
+    ui_category = "暗角";
 > = 1.00;
 
 uniform float LIGHTROOM_VIGNETTE_WIDTH <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Vignette Width";
-	ui_tooltip = "Higher values stretch the vignette horizontally.";
-    ui_category = "Vignette";
+	ui_label = "暗角宽度";
+	ui_tooltip = "高的值会使暗角水平拉伸。";
+    ui_category = "暗角";
 > = 0.00;
 
 uniform float LIGHTROOM_VIGNETTE_HEIGHT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Vignette Height";
-	ui_tooltip = "Higher values stretch the vignette vertically.";
-    ui_category = "Vignette";
+	ui_label = "暗角高度";
+	ui_tooltip = "高的值会使暗角垂直拉伸。";
+    ui_category = "暗角";
 > = 0.00;
 
 uniform float LIGHTROOM_VIGNETTE_AMOUNT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Vignette Amount";
-	ui_tooltip = "Intensity of vignette effect.";
-    ui_category = "Vignette";
+	ui_label = "暗角数量";
+	ui_tooltip = "暗角效果的强度";
+    ui_category = "暗角";
 > = 1.00;
 
 uniform float LIGHTROOM_VIGNETTE_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 10.00;
-	ui_label = "Vignette Curve";
-	ui_tooltip = "Curve of gradient between inner and outer radius. 1.0 means linear.";
-    ui_category = "Vignette";
+	ui_label = "暗角曲线";
+	ui_tooltip = "内部半径到外部半径的渐变曲线，1.0表示线性。";
+    ui_category = "暗角";
 > = 1.00;
 
 uniform int LIGHTROOM_VIGNETTE_BLEND_MODE <
 	ui_type = "combo";
-	ui_items = "Multiply\0Subtract\0Screen\0LumaPreserving\0";
-	ui_tooltip = "Select between different ways of applying vignette";
-    ui_label = "Vignette Blend Mode";
-    ui_category = "Vignette";
+	ui_items = "相乘\0相减\0滤色\0亮度保留\0";
+	ui_tooltip = "选择应用暗角的不同方法。";
+    ui_label = "暗角混合模式";
+    ui_category = "暗角";
 > = 1;
 
 /*=============================================================================
@@ -844,11 +847,10 @@ void PS_DisplayStatistics(float4 vpos : SV_Position, float2 uv : TEXCOORD0, noin
 =============================================================================*/
 
 technique Lightroom
-< ui_tooltip = "                      >> qUINT::Lightroom <<\n\n"
-			   "Lightroom is a color grading toolbox that offers a multitude\n"
-			   "of features commonly found in color grading software.\n"
-               "You can do deep color modifications, adjust contrast and levels,\n"
-               "tweak color balance, view a histogram and bake the CC into a 3D LUT.\n"
+< ui_label="qUINT-光线追踪暗室";ui_tooltip = "                >> qUINT::暗室(Lightroom) <<\n\n"
+			   "Lightroom是一个调色工具箱，提供调色软件中常见的多种功能。\n"
+			   "你可以进行深度色彩修改，调整对比度和色阶，调整色彩平衡，\n"
+			   "查看直方图，并将CC烘焙成3D LUT(bake the CC into a 3D LUT)。\n"
                "\nLightroom is written by Marty McFly / Pascal Gilcher"; >
 {
 	pass PProcessLUT

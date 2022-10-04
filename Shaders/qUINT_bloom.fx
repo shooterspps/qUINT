@@ -14,13 +14,14 @@
     Copyright (c) Pascal Gilcher / Marty McFly. All rights reserved.
 
 =============================================================================*/
+// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
 =============================================================================*/
 
 #ifndef SAMPLE_HQ
- #define SAMPLE_HQ 0
+ #define SAMPLE_HQ 1
 #endif
 
 /*=============================================================================
@@ -28,101 +29,101 @@
 =============================================================================*/
 
 uniform float BLOOM_INTENSITY <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 10.00;
-	ui_label = "Bloom Intensity";
-	ui_tooltip = "Scales bloom brightness.";
+	ui_label = "泛光强度";
+	ui_tooltip = "缩放泛光亮度";
 > = 1.2;
 
 uniform float BLOOM_CURVE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 10.00;
-	ui_label = "Bloom Curve";
-	ui_tooltip = "Higher values limit bloom to bright light sources only.";
+	ui_label = "泛光曲线";
+	ui_tooltip = "高值会限制只有亮的物体才会发出泛光";
 > = 1.5;
 
 uniform float BLOOM_SAT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 5.00;
-	ui_label = "Bloom Saturation";
-	ui_tooltip = "Adjusts the color strength of the bloom effect";
+	ui_label = "泛光饱和度";
+	ui_tooltip = "调整泛光效果的颜色饱和度";
 > = 2.0;
 /*
 uniform float BLOOM_DIRT <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 2.00;
 	ui_label = "Lens Dirt Amount";
 	ui_tooltip = "Applies a dirt mask on top of the original bloom.";
 > = 0.0;
 */
 uniform float BLOOM_LAYER_MULT_1 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 1 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层1强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.05;
 uniform float BLOOM_LAYER_MULT_2 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 2 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层2强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.05;
 uniform float BLOOM_LAYER_MULT_3 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 3 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层3强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.05;
 uniform float BLOOM_LAYER_MULT_4 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 4 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层4强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.1;
 uniform float BLOOM_LAYER_MULT_5 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 5 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层5强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.5;
 uniform float BLOOM_LAYER_MULT_6 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 6 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层6强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.01;
 uniform float BLOOM_LAYER_MULT_7 <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Layer 7 Intensity";
-	ui_tooltip = "Intensity of this bloom layer. 1 is sharpest layer, 7 the most blurry.";
+	ui_label = "泛光图层7强度";
+	ui_tooltip = "此泛光图层的强度，1是最锐的，7是最模糊的";
 > = 0.01;
 uniform float BLOOM_ADAPT_STRENGTH <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 1.00;
-	ui_label = "Bloom Scene Adaptation Sensitivity";
-	ui_tooltip = "Amount of adaptation applied, 0 means same exposure for all scenes, 1 means complete autoexposure.";
+	ui_label = "泛光场景自适应灵敏度";
+	ui_tooltip = "自适应的数量，0意味着所有场景都是一样的曝光，1意味着完全自动曝光";
 > = 0.5;
 uniform float BLOOM_ADAPT_EXPOSURE <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = -5.00; ui_max = 5.00;
-	ui_label = "Bloom Scene Exposure Bias";
-	ui_tooltip = "qUINT bloom employs eye adaptation to tune bloom intensity for scene differences.\nThis parameter adjusts the final scene exposure.";
+	ui_label = "泛光场景曝光偏移";
+	ui_tooltip = "qUINT泛光装载有眼睛自适应来根据不同场景调整曝光。\n这个参数调整最终场景曝光。";
 > = 0.0;
 uniform float BLOOM_ADAPT_SPEED <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.50; ui_max = 10.00;
-	ui_label = "Bloom Scene Adaptation Speed";
-	ui_tooltip = "Eye adaptation data is created by exponential moving average with last frame data.\nThis parameter controls the adjustment speed.\nHigher parameters let the image adjust more quickly.";
+	ui_label = "泛光场景自适应速度";
+	ui_tooltip = "眼睛自适应的数据是由最后一帧数据的指数滑动平均创建的。\n这个参数控制调整速度。\n更高的参数让图像的调整速度更快。";
 > = 2.0;
 uniform bool BLOOM_ADAPT_MODE <
-    ui_label = "Adapt bloom only";
+    ui_label = "只适应泛光";
 > = false;
 uniform float BLOOM_TONEMAP_COMPRESSION <
-	ui_type = "drag";
+	ui_type = "slider";
 	ui_min = 0.00; ui_max = 10.00;
-	ui_label = "Bloom Tonemap Compression";
-	ui_tooltip = "Lower values compress a larger color range.";
+	ui_label = "泛光色调映射压缩";
+	ui_tooltip = "低的值压缩大的颜色范围。";
 > = 4.0;
 
 /*=============================================================================
@@ -363,10 +364,9 @@ void PS_Combine(in float4 pos : SV_Position, in float2 uv : TEXCOORD, out float4
 =============================================================================*/
 
 technique Bloom
-< ui_tooltip = "                >> qUINT::Bloom <<\n\n"
-			   "Bloom is a shader that produces a glow around bright\n"
-               "light sources and other emitters on screen.\n"
-               "\nBloom is written by Marty McFly / Pascal Gilcher"; >
+< ui_tooltip = "                >> qUINT::泛光(Bloom) <<\n\n"
+			   "泛光是一个着色器，在屏幕上明亮的光源和其他发射器周围产生泛光。\n"
+			   "Bloom is written by Marty McFly / Pascal Gilcher"; ui_label="qUINT-光线追踪泛光";>
 {
     pass
 	{

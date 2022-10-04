@@ -15,6 +15,7 @@
     Copyright (c) Pascal Gilcher / Marty McFly. All rights reserved.
 
 =============================================================================*/
+// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
@@ -26,24 +27,24 @@
 
 uniform float SHARP_STRENGTH <
     ui_type = "slider";
-    ui_label = "Sharpen Strength";
+    ui_label = "锐化强度";
     ui_min = 0.0;
     ui_max = 1.0;
 > = 0.7;
 
 uniform bool DEPTH_MASK_ENABLE <
-    ui_label = "Use Depth Mask";
+    ui_label = "使用深度遮罩";
 > = true;
 
 uniform bool RMS_MASK_ENABLE <
-    ui_label = "Use Local Contrast Enhancer";
+    ui_label = "使用局部对比度增强";
 > = true;
 
 uniform int SHARPEN_MODE <
 	ui_type = "radio";
-    ui_label = "Sharpen Mode";
-    ui_category = "Sharpen Mode";
-	ui_items = "Chroma\0Luma\0";
+    ui_label = "锐化模式";
+    ui_category = "锐化模式";
+	ui_items = "色度\0亮度\0";
 > = 1;
 
 /*=============================================================================
@@ -133,7 +134,6 @@ void PS_Sharp(in VSOUT i, out float3 o : SV_Target0)
     //to adjust the intensity of the sharpener at edges with 
     //high local contrast to restrict sharpen to texture detail
     //only while leaving object and detail outlines mostly alone.
-    [branch]
     if(RMS_MASK_ENABLE)
     {
         float3 mean = (corners.rgb + neighbours.rgb + center.rgb) / 9.0;
@@ -175,12 +175,10 @@ void PS_Sharp(in VSOUT i, out float3 o : SV_Target0)
 
 
 technique DELC_Sharpen
-< ui_tooltip = "                     >> qUINT::DELCS <<\n\n"
-			   "DELCS is an advanced sharpen filter made to enhance texture detail.\n"
-               "It offers a local contrast detection method and allows to suppress\n"
-               "oversharpening on depth edges to combat common sharpen artifacts.\n"
-               "get access to more functionality.\n"
-               "\nDELCS is best positioned after most shaders but before film grain or such.\n"
+< ui_label="qUINT-光线追踪锐化";ui_tooltip = "       >> qUINT::深度增强局部对比度锐化(DELCS) <<\n\n"
+			   "DELCS是一个先进的锐化滤波器，用于增强纹理细节。\n"
+               "它提供了一个局部对比度检测方法，并允许抑制深度边缘的过度锐化，\n"
+               "以消除常见的锐化伪影。DELCS最好放在在大多数着色器之后，但在胶片颗粒等之前。\n"
                "\DELCS is written by Marty McFly / Pascal Gilcher"; >
 {
     pass
