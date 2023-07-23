@@ -14,7 +14,6 @@
     Copyright (c) Pascal Gilcher / Marty McFly. All rights reserved.
 
 =============================================================================*/
-// Translation of the UI into Chinese by Lilidream.
 
 /*=============================================================================
 	Preprocessor settings
@@ -26,7 +25,7 @@
 =============================================================================*/
 
 uniform float SSR_FIELD_OF_VIEW <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.00; ui_max = 100.00;
 	ui_label = "垂直视场(FOV)";
 	ui_tooltip = "垂直的视场大小，应该与相机的视场相匹配，\n但由于ReShade的深度线性化并不总是精确的，这个值可能与实际值不同。只要设置成看起来最好的就行。";
@@ -34,7 +33,7 @@ uniform float SSR_FIELD_OF_VIEW <
 > = 50.0;
 
 uniform float SSR_REFLECTION_INTENSITY <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.00; ui_max = 1.00;
 	ui_label = "反射强度";
 	ui_tooltip = "反射的数量";
@@ -42,7 +41,7 @@ uniform float SSR_REFLECTION_INTENSITY <
 > = 1.0;
 
 uniform float SSR_FRESNEL_EXP <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 1.00; ui_max = 10.00;
 	ui_label = "反射指数";
 	ui_tooltip = "qUINT使用Schlick的菲涅尔近似值。\n这个参数表示角度衰减的强度。\n较高的值将反射限制在非常平坦的角度。\nSchlick原始值: 5。\n菲涅尔系数被设置为0以匹配大多数表面。";
@@ -50,7 +49,7 @@ uniform float SSR_FRESNEL_EXP <
 > = 5.0;
 
 uniform float SSR_FADE_DIST <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.001; ui_max = 1.00;
 	ui_label = "消散距离";
 	ui_tooltip = "反射完全消失的距离。\n1意味着无限远";
@@ -58,15 +57,15 @@ uniform float SSR_FADE_DIST <
 > = 0.8;
 
 uniform float SSR_RAY_INC <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 1.01; ui_max = 3.00;
 	ui_label = "光线增加";
 	ui_tooltip = "光线步长大小增加速度。\n参数1.0意味着相同大小的步长，2.0意味着每次迭代的步长翻倍。如果不能代表整个场景（如天空缺失），则增加步长，以牺牲精度。";
-	ui_category = "光线追踪";
+	ui_category = "R光线追踪";
 > = 1.6;
 
 uniform float SSR_ACCEPT_RANGE <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.0; ui_max = 12.00;
 	ui_label = "可接受范围";
 	ui_tooltip = "射线相交的可接受误差。较大的值会导致更多的连贯但不正确的反射。";
@@ -74,7 +73,7 @@ uniform float SSR_ACCEPT_RANGE <
 > = 2.5;
 
 uniform float SSR_JITTER_AMOUNT <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.0; ui_max = 1.00;
 	ui_label = "光线抖动数量";
 	ui_tooltip = "随机改变每个像素的光线步长，以产生更连贯的反射，代价是产生需要过滤掉的噪声。";
@@ -82,7 +81,7 @@ uniform float SSR_JITTER_AMOUNT <
 > = 0.25;
 
 uniform float SSR_FILTER_SIZE <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.0; ui_max = 5.00;
 	ui_label = "过滤核大小";
 	ui_tooltip = "空间过滤器的大小，较高的值会产生更多的模糊反射，以牺牲细节为代价。";
@@ -90,7 +89,7 @@ uniform float SSR_FILTER_SIZE <
 > = 0.5;
 
 uniform float SSR_RELIEF_AMOUNT <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.0; ui_max = 1.00;
 	ui_label = "表面浮雕高度";
 	ui_tooltip = "压花纹理浮雕的强度。更高的值会导致更多的凹凸不平的表面。";
@@ -98,7 +97,7 @@ uniform float SSR_RELIEF_AMOUNT <
 > = 0.05;
 
 uniform float SSR_RELIEF_SCALE <
-	ui_type = "slider";
+	ui_type = "drag";
 	ui_min = 0.1; ui_max = 1.00;
 	ui_label = "表面浮雕尺寸";
 	ui_tooltip = "浮雕纹理的尺度，较低的数值会导致更多的高频浮雕。";
@@ -113,8 +112,8 @@ uniform float SSR_RELIEF_SCALE <
 #define RESHADE_QUINT_EFFECT_DEPTH_REQUIRE      //effect requires depth access
 #include "qUINT_common.fxh"
 
-texture2D SSR_ColorTex 	{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA8; AddressU = MIRROR;};
-sampler2D sSSR_ColorTex	{ Texture = SSR_ColorTex;	};
+texture2D SSR_ColorTex 	{ Width = BUFFER_WIDTH; Height = BUFFER_HEIGHT; Format = RGBA8; };
+sampler2D sSSR_ColorTex	{ Texture = SSR_ColorTex;	AddressU = MIRROR;};
 
 texture2D CommonTex0 	{ Width = BUFFER_WIDTH;   Height = BUFFER_HEIGHT;   Format = RGBA8; };
 sampler2D sCommonTex0	{ Texture = CommonTex0;	};
@@ -415,9 +414,10 @@ void PS_FilterV(in SSR_VSOUT i, out float4 o : SV_Target0)
 =============================================================================*/
 
 technique SSR
-< ui_label="qUINT-光线追踪屏幕空间反射";ui_tooltip = "              >> qUINT::屏幕空间反射(SSR) <<\n\n"
+< ui_tooltip = "                      >> qUINT::SSR <<\n\n"
 			   "SSR将屏幕空间的反射添加到场景中。\n"
-			   "这个着色器只打算用于截图，因为它将为所有东西添加反射-ReShade的限制。\n"
+			   "这个着色器只打算用于截图，因为它将为所有东西添加反射。\n"
+               "to _everything_ - ReShade limitation.\n"
                "\nSSR is written by Marty McFly / Pascal Gilcher"; >
 {
 	pass

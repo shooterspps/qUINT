@@ -15,7 +15,9 @@
 
 =============================================================================*/
 // Translation of the UI into Chinese by Lilidream.
-
+/*
+TODO: extend tiles to contain min abs depth for better high precision sampling
+*/
 /*=============================================================================
 	Preprocessor settings
 =============================================================================*/
